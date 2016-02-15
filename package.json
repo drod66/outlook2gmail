@@ -7,8 +7,8 @@
   "author": "drod66",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.1.2",
     "csv": "~0.4.1",
+    "iconv-lite": "^0.4.13",
     "untildify": "^2.1.0"
   }
 }

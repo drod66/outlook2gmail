@@ -1,8 +1,9 @@
 var csv = require('csv'),
     fs = require('fs'),
     path = require('path'),
+    stream = require('stream'),
     untildify = require('untildify'),
-    colors = require('colors/safe'),
+    iconv = require('iconv-lite'),
     outlook_fields = require('./outlook-fields'),
     google_fields = require('./google-fields'),
     outlook2google = require('./outlook2google'),
@@ -41,7 +42,7 @@ var csv = require('csv'),
                     }
                 });
                 if (unknown.length > 0) {
-                    process.stderr.write(colors.red('WARNING: Unexpected column(s): ' + unknown.join(', ') + '\n'));
+                    process.stderr.write('WARNING: Unexpected column(s): ' + unknown.join(', ') + '\n');
                 }
                 return google_fields;
             } else {
@@ -57,8 +58,18 @@ var csv = require('csv'),
                 return data;
             }
         }))
-        .pipe(csv.stringify())
-        .pipe(fs.createWriteStream(untildify(argv[3]), {
-            encoding: encodings.google
-        }));
+        .pipe(csv.stringify({
+            rowDelimiter: 'windows'
+        }))
+        .pipe(stream.Transform({
+            readableObjectMode: true,
+            transform: function(chunk, encoding, done) {
+                this.push(chunk.toString());
+                done();
+            }
+        }))
+        .pipe(iconv.encodeStream('ucs2', {
+            addBOM: true
+        }))
+        .pipe(fs.createWriteStream(untildify(argv[3])));
 })();
