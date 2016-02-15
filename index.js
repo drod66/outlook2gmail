@@ -68,7 +68,7 @@ var csv = require('csv'),
                 done();
             }
         }))
-        .pipe(iconv.encodeStream('ucs2', {
+        .pipe(iconv.encodeStream(encodings.google, {
             addBOM: true
         }))
         .pipe(fs.createWriteStream(untildify(argv[3])));
