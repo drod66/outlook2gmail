@@ -2,6 +2,16 @@
   "name": "outlook2gmail",
   "version": "0.0.1",
   "description": "Converts an Outlook CSV file into a GMail Contacts CSV file",
+  "homepage": "https://github.com/drod66/outlook2gmail",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drod66/outlook2gmail"
+  },
+  "keywords": [
+    "google",
+    "outlook",
+    "csv"
+  ],
   "main": "index.js",
   "scripts": {},
   "author": "drod66",
